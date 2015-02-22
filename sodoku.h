@@ -17,6 +17,7 @@ using namespace std;
 #include <algorithm>
 #include <iterator>
 #include <fstream>
+#include <ctype.h>
 
 template <typename T>
 class sodoku  {
@@ -41,19 +42,25 @@ sodoku<T>::sodoku(string fileName){
 	inFile.open (fileName.c_str());
 	int sizeOfBoard = 9;
 	T tempVar;
-	vector<T> tempVec;
-	while(!inFile.eof()){ //While the file is not at the end
-		for(int i = 0 ; i < sizeOfBoard ; i++){    //Read in a line into a temporary vector
-			inFile >> tempVar; //Put just read value into temporary vector
-			tempVec.push_back(tempVar);
-			cout << tempVar;
-			cout << endl;
+	string line;
+	int index;
+	while ( getline (inFile,line) ){
+		puzzle.push_back( vector<T> ());
+		for(int i = 0 ; i < line.size() ; i++){    //Read in a line into a temporary vector
+			if(!isspace(line[i])){
+				puzzle[index].push_back(line[i]-'0');
+				cout<< line[i];
+			}
+			//check to see if it is not a space
+			
+			// do diiferent things depending on whether it is a char or int typeid
 		}
-		cout << endl;
-		puzzle.push_back(tempVec);   //Push back the line just read)
-		tempVec.clear(); //Clear/recycle temporary vector
+		cout<<endl;
+		index++;
 	}
+
 }
+
 	
 	
 	
