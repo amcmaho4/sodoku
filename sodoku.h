@@ -21,11 +21,10 @@ using namespace std;
 template <typename T>
 class sodoku  {
 	
-friend istream &operator<<( istream &, const sodoku<T> & );
 	
 public:
-	sodoku();
-	~sodoku();
+	sodoku(string);
+	//~sodoku();
 	
 private:
 	
@@ -37,34 +36,27 @@ private:
 
 // Data members
 template<typename T>
-sodoku<T>::sodoku(){
-
-}
-template<typename T>
-sodoku<T>::~sodoku(){
-	
-}
-
-
-template<typename T>
-istream &operator>> ( istream &input, sodoku<T> &puzzle ){
-vector<T> tempVec;
-int sizeOfBoard = 9;
-T tempVar; // how can we define this as any thing?
-	cout<< "out 1";
-while(!input.eof()){ //While the file is not at the end
-	cout<< "out 2";
-	for(int i = 0 ; i < sizeOfBoard ; i++){    //Read in a line into a temporary vector
-		input >> tempVar; //Put just read value into temporary vector
-		cout<< input;
-		tempVec.push_back(tempVar);
+sodoku<T>::sodoku(string fileName){
+	ifstream inFile;
+	inFile.open (fileName.c_str());
+	int sizeOfBoard = 9;
+	T tempVar;
+	vector<T> tempVec;
+	while(!inFile.eof()){ //While the file is not at the end
+		for(int i = 0 ; i < sizeOfBoard ; i++){    //Read in a line into a temporary vector
+			inFile >> tempVar; //Put just read value into temporary vector
+			tempVec.push_back(tempVar);
+			cout << tempVar;
+			cout << endl;
+		}
+		cout << endl;
+		puzzle.push_back(tempVec);   //Push back the line just read)
+		tempVec.clear(); //Clear/recycle temporary vector
 	}
-	puzzle.push_back(tempVec);   //Push back the line just read)
-	tempVec.clear(); //Clear/recycle temporary vector
 }
-	return input;
-
-}
+	
+	
+	
 
 
 
