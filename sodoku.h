@@ -19,46 +19,52 @@ using namespace std;
 #include <fstream>
 
 template <typename T>
-class sodoku {
+class sodoku  {
+	
+friend istream &operator<<( istream &, const sodoku<T> & );
+	
 public:
-	
-	makeBoard(ifstream );
-	
+	sodoku();
+	~sodoku();
 	
 private:
 	
 	vector<vector <T> > puzzle;
-
-	
-	
-	
+	T *ptr; // pointer to first element of pointer-based array	
 };
 
 
 
 // Data members
+template<typename T>
+sodoku<T>::sodoku(){
+
+}
+template<typename T>
+sodoku<T>::~sodoku(){
+	
+}
 
 
-
+template<typename T>
+istream &operator>> ( istream &input, sodoku<T> &puzzle ){
 vector<T> tempVec;
-while(!sudoku.eof()){ //While the file is not at the end
-	for(i = 0 ; i < sizeOfBoard ; i++){    //Read in a line into a temporary vector
-		sudoku >> tempVar; //Put just read value into temporary vector
+int sizeOfBoard = 9;
+T tempVar; // how can we define this as any thing?
+	cout<< "out 1";
+while(!input.eof()){ //While the file is not at the end
+	cout<< "out 2";
+	for(int i = 0 ; i < sizeOfBoard ; i++){    //Read in a line into a temporary vector
+		input >> tempVar; //Put just read value into temporary vector
+		cout<< input;
 		tempVec.push_back(tempVar);
 	}
 	puzzle.push_back(tempVec);   //Push back the line just read)
 	tempVec.clear(); //Clear/recycle temporary vector
 }
+	return input;
 
-
-
-
-for (int i = 0; i < 9; i++)
-for (int j = 0; j < 9; j++) {
-	infile >> value;
-	Puzzle[i][j] = value;
 }
-
 
 
 
