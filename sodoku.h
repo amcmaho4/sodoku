@@ -18,6 +18,7 @@ using namespace std;
 #include <iterator>
 #include <fstream>
 #include <ctype.h>
+#include <typeinfo>
 
 template <typename T>
 class sodoku  {
@@ -26,6 +27,7 @@ class sodoku  {
 public:
 	sodoku(string);
 	//~sodoku();
+	void print();
 	
 private:
 	
@@ -41,24 +43,43 @@ sodoku<T>::sodoku(string fileName){
 	ifstream inFile;
 	inFile.open (fileName.c_str());
 	int sizeOfBoard = 9;
-	T tempVar;
+	T vectorVar;
 	string line;
-	int index;
+	int index =0;
 	while ( getline (inFile,line) ){
 		puzzle.push_back( vector<T> ());
 		for(int i = 0 ; i < line.size() ; i++){    //Read in a line into a temporary vector
-			if(!isspace(line[i])){
-				puzzle[index].push_back(line[i]-'0');
-				cout<< line[i];
+			if(!isspace(line[i])){			//check to see if it is not a space
+				//cout<< *(typeid(vectorVar).name())<< endl;
+				//if(*(typeid(vectorVar).name()) == 'i' ){
+					puzzle[index].push_back(line[i]-'0');
+					//cout<< line[i];
+					//cout<< (typeid(T).name());
+				//}
+				//cout<< puzzle[index].push_back(line[i]- '0');
+//				else if(*(typeid(vectorVar).name()) == 'i' ){
+//					puzzle[index].push_back(line[i]-'0');
+//					cout<< line[i];
+//				}
 			}
-			//check to see if it is not a space
 			
 			// do diiferent things depending on whether it is a char or int typeid
 		}
-		cout<<endl;
+		
 		index++;
 	}
 
+}
+
+template<typename T>
+void sodoku<T>::print(){
+	
+	for(int i= 0; i< 9; i++){
+		for(int j=0; j< 9 ; j++){
+			cout<< puzzle[i][j];
+		}
+		cout<< endl;
+	}
 }
 
 	

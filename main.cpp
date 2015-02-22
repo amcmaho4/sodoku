@@ -16,6 +16,6 @@ cout << "Please enter file name: ";
 cin >> fileName;
 
 sodoku <int> puzzle("sodoku.txt");
-
+	puzzle.print();
 
 }

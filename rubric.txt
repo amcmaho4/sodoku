@@ -1,0 +1,33 @@
+rubric: lab #5
+2/22/15 7:08 AM
+As always let us know if you have questions.  This has the prior Piazza/in lab questions answered and shouldn't have surprises, it just tells you the weight of the bits and what we expect in the report.
+
+I will post the sample puzzles as a resource.
+
+Part 1: 5 points
+--------
+
++5    A URL is included in your report.txt that allows the TA to see the project you started and at least one file (3 pts) in a new online repository
+
+Part 2: 40 points
+--------
++2 Makefile correctly compiles code
++4 interface (.h) structured and commented well (2 pts each)
++4 uses a 2D vector properly
++4 uses fopen/streams properly for input in a constructor
++10 proper templating for the puzzle such that it can store ints and chars.
++10 Instantiate an object of each in a driver program for graders to check. Must use the constructor to load in two files (see above).  5 pts each
++6  displays uncompleted int and char puzzles to the screen  3 pts each
+
+Part 3: Finishing up 30/pts
+--------
++5 interactive mode that displays and gets user input for filling in a cell.  It is up to you if you allow users to change cells that have numbers in them, but if you are striving for the best implementation possible a user should only change cells not in the original puzzle.  We will give full credit as long as you check to make sure the cell is valid and change (or not change) it based on what you decide.
++15 Determine if a given entry is valid based on the current state of the board, i.e., that number does not occur in the same row (5 pts), column (5 pts) or mini grid (5 pts)
++10 determines a 9X9 puzzle is completed successfully
+
+Lab Report: 15 points
+--------
++2 Explains how the user uses the program.
++5 Explains how the program works internally.
++3 Explains how the program was verified.
++5 Text on what you think worked well, what did not work, and a general summary of the “how” it was implemented. This is effectively more detail than usual on how the program works, but from the programmer perspective.
