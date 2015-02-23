@@ -193,7 +193,6 @@ cout<< "horizontal: "<< endl;
 	
 	
 	X=3, Y=2;
-	
 	cout<<endl;
 	for(int l=0; l< 9 ; l++){
 		cout<<*(verticalValuesPtr[l][Y]);
@@ -207,9 +206,34 @@ cout<< "horizontal: "<< endl;
 		cout<<*(squareValuesPtr[squareVal[X][Y]][l]);
 	}
 	
+	vector<T> invalid;
+	X=3, Y=2;
+	for(int l=0; l< 9 ; l++){
+		invalid.push_back(*(squareValuesPtr[squareVal[X][Y]][l]));
+		invalid.push_back(*(verticalValuesPtr[l][Y]));
+		invalid.push_back(*(horizontalValuesPtr[l][X]));
+	}
+	invalid.erase(std::remove(invalid.begin(), invalid.end(), 0), invalid.end());
+	
+	
+	std::sort(invalid.begin(), invalid.end());
+	invalid.erase(std::unique(invalid.begin(), invalid.end()), invalid.end());
+	cout<<endl;
+	for(int j=0; j< invalid.size() ; j++){
+		cout<< invalid[j];
+	}
+	
+	
+	
+	//elementsPlaced
+	//emptylocations
+	//gameOver if they enter in a bad location
+	
 	
 	
 }
+
+
 
 //vector1.insert( vector1.end(), vector2.begin(), vector2.end() );
 
