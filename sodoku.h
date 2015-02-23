@@ -15,11 +15,12 @@ using namespace std;
 
 #include <vector>
 #include <algorithm>
-#include <array>
+#include <Array>
 #include <iterator>
 #include <fstream>
 #include <ctype.h>
 #include <typeinfo>
+#include <map>
 
 template <typename T>
 class sodoku  {
@@ -29,7 +30,7 @@ public:
 	sodoku(string);
 	//~sodoku();
 	void print();
-	
+
 private:
 	
 	vector<vector <T> > puzzle;
@@ -63,6 +64,7 @@ sodoku<T>::sodoku(string fileName){
 }
 
 template<typename T>
+
 void sodoku<T>::print(){
 	for(int i= 0; i< puzzle.size(); i++){
 		for(int j=0; j< puzzle.size() ; j++){
@@ -71,31 +73,84 @@ void sodoku<T>::print(){
 		cout<< endl;
 	}
 	//puzzle [down][over]
-	int X=3;
-	int Y=3;
+	int X=0;
+	int Y=0;
 	
 	
-	int verticalLocations[9][2];
- int horizontalLocations[9][2];
-	cout<< "vlocs: "<<endl;
+
+	
+////int allVerticalValues[];
+//vector <T> *ptrs =&(puzzle[0]);
+//vector <T> *ptrs2 =&(puzzle[1]);
+//	
+////cout<< (*ptrs)[1] << endl;
+////	cout<< (*ptrs2)[1] << endl;
+////	vector<int> copyV (9,0);
+////	remove_copy()
+//
+//	
+//cout<< (*ptrs)[1] << endl;
+cout<<endl;
+
+	cout<< "vertical : "<<endl;
+int *verticalValuesPtr[9][9];
+//vector<vector <T> > verticalValuesPtr;
+	//verticalValuesPtr = &(puzzle[1][1]);
+for (int v=0; v<puzzle.size(); v++) {
 	for(int l=0; l< 9 ; l++){
-		verticalLocations[l][0]= l;
-		verticalLocations[l][1]= Y;
-		
-			cout<<  l <<" "<< Y <<" "<<puzzle[l][Y]<< endl;
-	
-	}
-	cout<< "hlocs: "<<endl;
-	for(int d=0; d< 9 ; d++){
-		horizontalLocations[d][0]= X;
-		horizontalLocations[d][1]= d;
-		cout<<  X<<" "<< d <<" "<<puzzle[X][d]<< endl;
+		verticalValuesPtr[l][v]= &(puzzle[l][v]);
+		//verticalValuesPtr[l].push_back(&(puzzle[l][v]));
+		//cout<< l<<v;
 		
 	}
+	}
+
+	for (int v=0; v<puzzle.size(); v++) {
+		for(int l=0; l< 9 ; l++){
+			cout<<*(verticalValuesPtr[l][v]);
+		}
+		cout<<endl;
+	}
+	
+	cout<<endl;
+	
+cout<< "horizontal: "<< endl;
+	int *horizontalValuesPtr[9][9];
+
+	for (int v=0; v<puzzle.size(); v++) {
+		for(int l=0; l< 9 ; l++){
+			horizontalValuesPtr[v][l]= &(puzzle[l][v]);
+			
+		}
+	}
+	for (int v=0; v<puzzle.size(); v++) {
+		for(int l=0; l< 9 ; l++){
+			cout<<*(horizontalValuesPtr[l][v]);
+		}
+		cout<<endl;
+	}
 	
 	
+	cout<<endl;
 	
-	int shareSquareLocations[8][2];
+	cout<< "square : "<< endl;
+	
+	int *squareValuesPtr[9][9];
+	int *allValuesPtr[9][9];
+	
+	int squareVal[9][9];
+	int squareCenters[9][2] = {
+						{1,1},
+						{1,4},
+						{1,7},
+						{4,1},
+						{4,4},
+						{4,7},
+						{7,1},
+						{7,4},
+						{7,7}
+	};
+	
 	int locations[9][2] =
 					{{1, -1},
 					{-1, 1},
@@ -108,13 +163,51 @@ void sodoku<T>::print(){
 					{-1, 0}
 	};
 	cout<<endl;
-	cout<< "checking for neighbors of: "<< X<<", "<<Y<<" the value here: "<< puzzle[X][Y]<<endl;
-	for(int l=0; l< 9; l++){
-		int i=X+locations[l][0], j=Y+locations[l][1];
-		shareSquareLocations[l][0]= j;
-		shareSquareLocations[l][1]= i;
-		cout<<  i <<" "<< j <<" "<<puzzle[i][j]<< endl;
+	
+	for (int c =0; c<9; c++) {    // loops through all the different square centers
+		X=squareCenters[c][0], Y= squareCenters[c][1];
+		
+		for(int l=0; l< 9; l++){      // loops throught locations around a square center
+			int i=X+locations[l][0], j=Y+locations[l][1];
+			squareValuesPtr[c][l]= &(puzzle[i][j]);
+			squareVal[i][j]=c;
+		}
 	}
+
+	
+	for (int v=0; v<puzzle.size(); v++) {
+		for(int l=0; l< 9 ; l++){
+			cout<<*(squareValuesPtr[v][l]);
+		}
+		cout<<endl;
+	}
+		cout<<endl;
+		cout<<endl;
+	for (int v=0; v<puzzle.size(); v++) {
+		for(int l=0; l< 9 ; l++){
+			cout<<(squareVal[v][l]);
+		}
+		cout<<endl;
+	}
+	
+	
+	
+	X=3, Y=2;
+	
+	cout<<endl;
+	for(int l=0; l< 9 ; l++){
+		cout<<*(verticalValuesPtr[l][Y]);
+	}
+	cout<<endl;
+	for(int l=0; l< 9 ; l++){
+		cout<<*(horizontalValuesPtr[l][X]);
+	}
+	cout<<endl;
+	for(int l=0; l< 9 ; l++){
+		cout<<*(squareValuesPtr[squareVal[X][Y]][l]);
+	}
+	
+	
 	
 }
 
