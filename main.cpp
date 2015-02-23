@@ -17,5 +17,6 @@ cin >> fileName;
 
 sodoku <int> puzzle("sodoku.txt");
 	puzzle.print();
+	//puzzle.play();
 
 }

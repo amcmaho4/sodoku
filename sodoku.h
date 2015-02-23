@@ -30,6 +30,7 @@ public:
 	sodoku(string);
 	//~sodoku();
 	void print();
+	void play();
 
 private:
 	
@@ -73,71 +74,23 @@ void sodoku<T>::print(){
 		cout<< endl;
 	}
 	//puzzle [down][over]
-	int X=0;
-	int Y=0;
 	
-	
-
-	
-////int allVerticalValues[];
-//vector <T> *ptrs =&(puzzle[0]);
-//vector <T> *ptrs2 =&(puzzle[1]);
-//	
-////cout<< (*ptrs)[1] << endl;
-////	cout<< (*ptrs2)[1] << endl;
-////	vector<int> copyV (9,0);
-////	remove_copy()
-//
-//	
-//cout<< (*ptrs)[1] << endl;
-cout<<endl;
-
-	cout<< "vertical : "<<endl;
+// make an array of pointers to the loactions columns
 int *verticalValuesPtr[9][9];
-//vector<vector <T> > verticalValuesPtr;
-	//verticalValuesPtr = &(puzzle[1][1]);
 for (int v=0; v<puzzle.size(); v++) {
 	for(int l=0; l< 9 ; l++){
 		verticalValuesPtr[l][v]= &(puzzle[l][v]);
-		//verticalValuesPtr[l].push_back(&(puzzle[l][v]));
-		//cout<< l<<v;
-		
 	}
 	}
-
-	for (int v=0; v<puzzle.size(); v++) {
-		for(int l=0; l< 9 ; l++){
-			cout<<*(verticalValuesPtr[l][v]);
-		}
-		cout<<endl;
-	}
-	
-	cout<<endl;
-	
-cout<< "horizontal: "<< endl;
-	int *horizontalValuesPtr[9][9];
-
+// make an array of pointers to the locations in the rows
+int *horizontalValuesPtr[9][9];
 	for (int v=0; v<puzzle.size(); v++) {
 		for(int l=0; l< 9 ; l++){
 			horizontalValuesPtr[v][l]= &(puzzle[l][v]);
-			
 		}
 	}
-	for (int v=0; v<puzzle.size(); v++) {
-		for(int l=0; l< 9 ; l++){
-			cout<<*(horizontalValuesPtr[l][v]);
-		}
-		cout<<endl;
-	}
-	
-	
-	cout<<endl;
-	
-	cout<< "square : "<< endl;
 	
 	int *squareValuesPtr[9][9];
-	int *allValuesPtr[9][9];
-	
 	int squareVal[9][9];
 	int squareCenters[9][2] = {
 						{1,1},
@@ -162,60 +115,32 @@ cout<< "horizontal: "<< endl;
 					{1, 0},
 					{-1, 0}
 	};
-	cout<<endl;
-	
+	//  the center X and Y locations
+	int scX, scY;
+	// make an array of pointers to a locations in the nine different squares on the box
 	for (int c =0; c<9; c++) {    // loops through all the different square centers
-		X=squareCenters[c][0], Y= squareCenters[c][1];
+		scX=squareCenters[c][0], scY= squareCenters[c][1];
 		
 		for(int l=0; l< 9; l++){      // loops throught locations around a square center
-			int i=X+locations[l][0], j=Y+locations[l][1];
+			int i=scX+locations[l][0], j=scY+locations[l][1];
 			squareValuesPtr[c][l]= &(puzzle[i][j]);
-			squareVal[i][j]=c;
+			squareVal[i][j]=c;  // used to decide which square the piece is in
 		}
 	}
-
 	
-	for (int v=0; v<puzzle.size(); v++) {
-		for(int l=0; l< 9 ; l++){
-			cout<<*(squareValuesPtr[v][l]);
-		}
-		cout<<endl;
-	}
-		cout<<endl;
-		cout<<endl;
-	for (int v=0; v<puzzle.size(); v++) {
-		for(int l=0; l< 9 ; l++){
-			cout<<(squareVal[v][l]);
-		}
-		cout<<endl;
-	}
+	int X=5;
+	int Y=5;
 	
-	
-	
-	X=3, Y=2;
-	cout<<endl;
-	for(int l=0; l< 9 ; l++){
-		cout<<*(verticalValuesPtr[l][Y]);
-	}
-	cout<<endl;
-	for(int l=0; l< 9 ; l++){
-		cout<<*(horizontalValuesPtr[l][X]);
-	}
-	cout<<endl;
-	for(int l=0; l< 9 ; l++){
-		cout<<*(squareValuesPtr[squareVal[X][Y]][l]);
-	}
-	
+	// use push back to put all the relevant values into a vector
+	// the vector has 0's and is 27 T in size
 	vector<T> invalid;
-	X=3, Y=2;
 	for(int l=0; l< 9 ; l++){
 		invalid.push_back(*(squareValuesPtr[squareVal[X][Y]][l]));
 		invalid.push_back(*(verticalValuesPtr[l][Y]));
 		invalid.push_back(*(horizontalValuesPtr[l][X]));
 	}
+	// fix it up
 	invalid.erase(std::remove(invalid.begin(), invalid.end(), 0), invalid.end());
-	
-	
 	std::sort(invalid.begin(), invalid.end());
 	invalid.erase(std::unique(invalid.begin(), invalid.end()), invalid.end());
 	cout<<endl;
@@ -223,15 +148,49 @@ cout<< "horizontal: "<< endl;
 		cout<< invalid[j];
 	}
 	
-	
-	
-	//elementsPlaced
-	//emptylocations
-	//gameOver if they enter in a bad location
-	
-	
-	
+
 }
+
+
+//template<typename T>
+//void sodoku<T>::play(){
+//	T value;
+//	int X=0;
+//	int Y=0;
+//	int elementsPlaced = 0;
+//	int emptylocations = 81; //CHANGE
+//	bool gameOver = false;  //if they enter in a bad location
+//	while ((elementsPlaced <= emptylocations) && !(gameOver)) {
+//		
+//		do{
+//			cout<< "X position: " <<endl;
+//			cin >> X;
+//			cout << endl;
+//			cout << "Y position: "<< endl;
+//			cin>> Y;
+//		}while(puzzle[X][Y]!=0);
+//		cout << "and what's you value: "<<endl;
+//		cin>> value;
+//		
+//		
+//		
+//		if (std::find(invalid.begin(), invalid.end(), value) != invalid.end()) // check the invalid array
+//		{
+//			gameOver= true;
+//			cout << "sorry bad move you lose";
+//		}
+//		else{
+//			puzzle[X][Y]=value;
+//			elementsPlaced++;
+//			cout<< "successfully placed"<<endl;
+//		}
+//	}
+//}
+
+
+
+
+
 
 
 
