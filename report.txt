@@ -1,0 +1,9 @@
++2 Explains how the user uses the program
+	The user can use this game to play the popular game sodoku. They can enter in the desired row and column, and then the value that they would like to place on the board
+
+
++5 Explains how the program works internally.
+
+
++3 Explains how the program was verified.
++5 Text on what you think worked well, what did not work, and a general summary of the “how” it was implemented. This is effectively more detail than usual on how the program works, but from the programmer perspective.

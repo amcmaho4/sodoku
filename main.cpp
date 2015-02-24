@@ -15,8 +15,11 @@ string fileName;
 cout << "Please enter file name: ";
 cin >> fileName;
 
-sodoku <int> puzzle("sodoku.txt");
+sodoku <char> puzzle("wordoku.txt");
 	puzzle.print();
-	//puzzle.play();
-
+//	//puzzle.play();
+	
+	sodoku <int> puzzle2("sodoku.txt");
+	puzzle2.print();
+	
 }
