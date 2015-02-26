@@ -39,6 +39,7 @@ public:
 	vector<T> getValidArray(int , int );
 	void updateUntakenValues();
 	void insertSingle();
+	void trySolve();
 	
 	//T*[9][9] getsquareValuesPtr()
 private:
@@ -264,7 +265,6 @@ invalid.erase(std::remove(invalid.begin(), invalid.end(), '0'), invalid.end());
 
 std::sort(invalid.begin(), invalid.end());
 invalid.erase(std::unique(invalid.begin(), invalid.end()), invalid.end());
-cout<<endl;
 
 vector<T> untakenValues;
 for(int i=1; i<=9; i++){
@@ -285,65 +285,118 @@ template<typename T>
 void sodoku<T>::updateUntakenValues(){
 	vector<T> untakenValuesSegment;
 	vector< vector<T> > untakenValues2Segment;
-	cout<< endl;
-	cout<< endl;
+	
+	//cout<< "in update untaken vals: " <<endl;
+	untakenValues.clear();
 	for(int i= 0; i< 9; i++){
 		for(int j=0; j< 9 ; j++){
 			untakenValuesSegment= getValidArray(i,j);
 			//untakenValuesSegment.erase(std::remove(untakenValuesSegment.begin(), untakenValuesSegment.end(), 0), untakenValuesSegment.end());
 			for(int j=0; j< untakenValuesSegment.size() ; j++){
-				cout<<untakenValuesSegment[j];
+				//cout<<untakenValuesSegment[j];
 			}
 			untakenValues2Segment.push_back(untakenValuesSegment);
 			untakenValuesSegment.clear();
 		}
-		cout<< endl;
+		//cout<< endl;
 		untakenValues.push_back(untakenValues2Segment);
 		
 		untakenValues2Segment.clear();
 	}
-	for(int i= 0; i< 9; i++){
-		for(int j=0; j< 9 ; j++){
-			for (int k=0; k<9; k++) {
-				cout<< untakenValues[i][j][k];
-		}
-			cout<< " ";
-		}
-		cout<< endl;
-	}
-	
-	
-	
-
-	
 }
+
+
 
 
 template<typename T>
-void sodoku<T>:: insertSingle(){
-	updateUntakenValues();
-	int yesContinue=0;
-	while(!(Won())){
+void sodoku<T>:: trySolve(){
+	int sum=0;
+	int place =0;
+	while(!Won()){
 	for(int i= 0; i< 9; i++){
 		for(int j=0; j< 9 ; j++){
-			if(puzzle[i][j]==0){
-			if(((untakenValues[i][j]).size()) <= 4){
-				puzzle[i][j]=1; //untakenValues[i][j][1];
-				updateUntakenValues();
-				i=0;
-				j=0;
-				cout<< "this is the board: "<<endl;
-				print();
-				cout << "continue?"<< endl;
-				cin>> yesContinue;
+			sum=0;
+			if(puzzle[i][j] == 0 ){
+				for (int k=0; k<9; k++) {
+					sum += untakenValues[i][j][k];
+					if(untakenValues[i][j][k] == 1){
+						place = k;
+					}
+				}
+				if(sum == 1){
+					puzzle[i][j] = place+1;
+					cout<< "the number "<<place+1<< " was placed at: "<< i<<" "<<j<<endl;
+					i=0;
+					j=0;
+					(*this).print();
+					updateUntakenValues();
+				}
 			}
-			}
-			print();
+		}
+		}
 	}
-	}
+}
 
-}
-}
+
+
+
+
+
+//template<typename T>
+//void sodoku<T>:: insertSingle(){
+//	updateUntakenValues();
+//	int yesContinue=0;
+//	int sum =0;
+//	int place;
+//	
+//	
+//	
+//
+//	for(int i= 0; i< 9; i++){
+//		for(int i= 0; i< 9; i++){
+//			for(int j=0; j< 9 ; j++){
+//				for (int k=0; k<9; k++) {
+//					//cout<< untakenValues[i][j][k];
+//					sum += untakenValues[i][j][k];
+//				}
+//				cout<< "  " << sum<< "  " ;
+//				sum=0;
+//			}
+//			cout<< endl;
+//		}
+//		
+//		
+//		for(int j=0; j< 9 ; j++){
+//			if(puzzle[i][j] == 0 ){
+//				cout << 0;
+//				sum= 0;
+//				for(int k= 0; k< 9; k++){
+//					sum += untakenValues[i][j][k];
+//					if(untakenValues[i][j][k] == 1){
+//						place = k;
+//					}
+//				}
+//				cout<< sum;
+//				if(sum == 1 ){
+//					puzzle[i][j]= place+1; //(std::find(invalid.begin(), invalid.end(), value) != invalid.end());
+//					cout<< "place"<<place;
+//					updateUntakenValues();
+//					i=0;
+//					j=0;
+//					cout<< "this is the board: "<<endl;
+//					print();
+//				}
+//			}
+//			
+//		}
+//		cout<< endl;
+//	
+//
+//	}
+//}
+
+
+
 
 			
 
