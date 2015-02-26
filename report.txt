@@ -4,6 +4,43 @@
 
 +5 Explains how the program works internally.
 
+	First this program asks the user if thay want to play wordoku ro sodoku, and then makes an object accordingly. The construcotr take the name of the text file as Parameter. It then makes an ifStream inFile and opens the file with the name indicated by the constructors parameter. From here it goes on to read the contents of te file into a vector of vectors (the puzzle)  In the constructor 3 9x9 arrays of pointers ar also made.
+
+
+	The process of checking if the validity of the value the user enters depends the  3 arrays 9x9 of poiners to T made in the constructor, each array of pointers systematically point to the locations in the array. The horizontalArrayPtr points point to all the points in order. Each row of the vertical array points to a each index in cartain column. Then for the the array of pointers squareValuesPtr, each row of this array of pointers points to the locations of an index in a 3x3 grid. So the nine different 3x3 squares that make up the board are each represented in each row of this array of pointers.
+
+		More detail on how this last array of pointers was made:
+			I made a 9x2 array squareCenters holds the locations of all the centers of the 3x3 sub- squares that make up a 9 x9 grid
+			then I made another 9x2 array called locations is essentially an array of increments. When you add these increments to any given location, they will give you the loctions of points that are in a 3x3 grid around that point (including the point).
+
+	The three pointer vectors are then used in checkIfValid. checkIfInvalid takes the current X and Y location and the value that the user would like to put at that location. It gathers all the values at the locations that the current X and Y position depend on and pushes them all back into a vector. Then this vector which is now 27 T in lenghth, is modified. This was kindof unecessary, but I wanted to see what All I could do with the STL library. I used erase, remove, sort, and unique to get rid of all the duplicate values and 0's. So now the vector "invalid" only holds what values the current X and Y condition cannot be. Then, finally the find STL function is used to see if the users inputed value is valid, and returns true or false.
+
+The function the controls the flow of the game if play(). This is called in the driver program. It consists of a while loop controled by the variable gameLost.This value is determined by the output of the checkIfInvalid funciton. If this function returns true, then gameLost is set to true, and the while loop terminates. This function also reprints the board with every iteration using the print() function. This funtions just loops through the vectors of vectors and prints the value at each index, treating it like it is an array.
+
+The value outputted by the the checkIfValid function is unsed to controll the while loop that runs in the play function. The game continues to ask the user for points to enter as long as checkIfinValid is returns false, and as long as gameWon is false.
+gameWon is called with every iteration of the game, and it just checks to see if all the locations on the board are filled.
+
 
 +3 Explains how the program was verified.
+This program was verified using a lot of cout statements. As I was programming, I otputted pretty much everything so that I could tell what was happening in the game. I also entered in a lot of values when playing both games to test if it was working.I also found the print funtion that was implemented useful when I was checking to make sure the user input was being interpretted by the program appropriately. If you would like to see the full process of how the program was verified you can look at the older versions of the code in github, I pushed my work up ~ 15 times along the way.
+
 +5 Text on what you think worked well, what did not work, and a general summary of the “how” it was implemented. This is effectively more detail than usual on how the program works, but from the programmer perspective.
+
+I think my program works well, but I think I made it alot more complicated than it had to be. I think I could have taken a lot simpler approach to solving this problem. As for what did not work, the input of the file into the vector of vectors was really hard. It gave me a lot of trouble. I realized at the end that for grading purposes it would be nice if you could enter in a full board and see if all of the board was valid, but with the way I programmed it,  it checks if each cell is valid along the way. My program assumes that the numbers already place on the inital board are valid, and then goes from there to decide of the user input is correct. This is a flaw because whoever is gradind this has to play the game through to find out if it works. The method by which it decides if the user has "won" or not is simply to check if all the spaces in the board are full. This works well assuming that the orignal board is valid. However, if you want to see that the game does indeed determine a winner, you can use the "correctSodoku.txt" and just enter in the only missing location. This is an easier way to check. Another thing that I would have changed if I had more time was I would have made the pointer arrays private. It is not good programming to have them be public, but I didn't have time to get the getters working.
+
+
+General Flow:
+
+In brief, this program does the following:
+		- reads a file and turns it into a vector of vectors
+		- 3 sets of pointers to sets of locations on the boards (rows, columns, mini grids) so that the values at the locations that an arbitray point X, Y depend on can easily be found.
+		- the values found using these array are then saves into a vector
+		- this vector in then simplifid using the STL library functions.
+		- the game is played until either all locations on the board are filled, or the player enters an invalif location.
+
+
+
+and yes, I do know that I spelled sudoku wrong
+
+
+link to repository: https://github.com/amcmaho4/sodoku
