@@ -3,7 +3,7 @@ using namespace std;
 
 #include <vector>
 #include <fstream>
-#include "sodoku.h"
+#include "sodoku2.h"
 #include <cstdlib>
 #include <cstring>
 #include <string>
@@ -22,11 +22,13 @@ int main(){
 //	cin>> userChoice;
 	
 	//if(userChoice==1){  // playing actual sodoku
-		sodoku <int> puzzle("mediumPuzzle.txt");
+		sodoku <int> puzzle("easySodoku.txt");
+
 		puzzle.print();
-	
+
 	puzzle.updateUntakenValues();
-	puzzle.trySolve();
+
+	//puzzle.solve();
 	
 	//	puzzle.insertSingle();
 		//puzzle.solve();

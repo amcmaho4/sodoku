@@ -306,7 +306,12 @@ void sodoku<T>::updateUntakenValues(){
 }
 
 
+// for each of the other sets in the row/ column/
+	// for each vector of possible values in a set for()
 
+		// if find(element = true)
+			//continue
+// puzzle[i][j]== value
 
 template<typename T>
 void sodoku<T>:: trySolve(){
