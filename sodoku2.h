@@ -307,14 +307,96 @@ void sodoku<T>::updateUntakenValues(){
 			untakenValues2Segment.push_back(untakenValuesSegment);
 			untakenValuesSegment.clear();
 		}
-		
-		
-		
 		cout<< endl;
 		untakenValues.push_back(untakenValues2Segment);
 		untakenValues2Segment.clear();
 	}
+	vector<T> vec;
+	for(int i= 0; i< 9; i++){
+		//for(int j=0; j< 9 ; j+=0){
+			for(int k=0; k< (untakenValues[0][i]).size() ; k++){
+				vec.push_back(untakenValues[0][i][k]);
+			}
+			//cout<< " ";
+		//}
+		//cout<<endl;
+	}
+	
+	int count=0;
+	for(int rows=0; rows<9; rows++){
+		cout<< "the row is: "<<rows<< endl;
+		cout<< endl;
+	for(int ci= 0; ci< 9; ci+=1){
+		for(int cs=0; cs<(untakenValues[rows][ci]).size(); cs++){
+			cout<< untakenValues[rows][ci][cs];
+
+			for(int i= 0; i< 9; i+=1){
+					for(int s=0; s<(untakenValues[rows][i]).size(); s++){
+						if( untakenValues[rows][i][s] == (untakenValues[rows][ci][cs])){
+							count++;		}
+				   		}
+					}
+				cout<< "    count: "<<count<<endl;
+				if(count==1){
+					cout<< "UNIQUE";
+					puzzle[rows][ci]=(untakenValues[rows][ci][cs]);
+
+				}
+				count=0;
+			}
+		
+
+		}
+	}
+	
+	
+	
+	for(int cols=0; cols<9; cols++){
+		cout<< "the column is: "<<cols<< endl;
+		cout<< endl;
+		for(int ci= 0; ci< 9; ci++){
+			if(puzzle[ci][cols] !=0){
+				for(int cs=0; cs<(untakenValues[ci][cols]).size(); cs++){
+					cout<< untakenValues[ci][cols][cs];
+
+				for(int i= 0; i< 9; i+=1){
+					for(int s=0; s<(untakenValues[ci][cols]).size(); s++){
+						if( untakenValues[i][cols][s] == (untakenValues[ci][cols][cs])){
+							count++;		}
+					}
+				}
+				cout<< "    count: "<<count<<endl;
+				if(count==1){
+					cout<< "UNIQUE";
+					print();
+					cout<< "this is ci: "<< ci <<" and cols : "<<cols;
+					puzzle[ci][cols]=(untakenValues[ci][cols][cs]);
+					print();
+				}
+				count=0;
+			}
+			}
+			
+		}
+	}
+	
+	
+	
+	
 }
+
+	
+	
+
+
+		//cout<< " ";
+		//}
+		//cout<<endl;
+					
+					
+	
+					
+					
 
 
 
