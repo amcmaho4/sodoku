@@ -22,11 +22,12 @@ int main(){
 //	cin>> userChoice;
 	
 	//if(userChoice==1){  // playing actual sodoku
-		sodoku <int> puzzle("easySodoku.txt");
+		sodoku <int> puzzle("mediumPuzzle.txt");
 
 		puzzle.print();
 
 	puzzle.updateUntakenValues();
+	puzzle.singleton();
 
 	//puzzle.solve();
 	

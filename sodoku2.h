@@ -31,6 +31,7 @@ public:
 	void print();
 	void play();
 	bool Won();
+	void singleton();
 	T *squareValuesPtr[9][9];
 	int squareVal[9][9];
 	T *verticalValuesPtr[9][9];
@@ -42,6 +43,7 @@ public:
 	void updateUntakenValues();
 	void insertSingle();
 	void solve();
+	
 	
 	//T*[9][9] getsquareValuesPtr()
 private:
@@ -121,7 +123,7 @@ sodoku<T>::sodoku(string fileName){
 	}
 	updateUntakenValues();
 	validverticalValuesPtr[1][1] =&(untakenValues[1][1]);
-	cout<< (*validverticalValuesPtr) << endl;
+	//cout<< (*validverticalValuesPtr) << endl;
 	
 	for (int v=0; v<9; v++) {
 		for(int l=0; l< 9 ; l++){
@@ -143,43 +145,43 @@ sodoku<T>::sodoku(string fileName){
 	
 	
 	//**************************************************************************************************
-	cout<<endl;
- 	vector<T> *vectorOfPossibleValues= validhorizontalValuesPtr[0][0];
-	vector<T> *vectorOfCurrentValues= validhorizontalValuesPtr[0][0];
-	vector<T> *allPossibleVals ; // vals in all the row
-
-	// need to do this for each row
-	for(int l= 0; l< 9; l++){
-		for(int s= 0;     s< (*validhorizontalValuesPtr[l][s]).size() ;   s++ ){
-			//Use if statement to deregard the possible values at taken locations
-			//cout<<"puzzle piece: "<<puzzle[l][0]<<endl;
-			//if(puzzle[l][s]==0){
-			(*vectorOfPossibleValues).push_back((*validhorizontalValuesPtr[0][l])[s]);
-			cout<< (*validhorizontalValuesPtr[0][l])[s];
-			//}
-		}
-		cout<<endl;
-	}
-	// PRINT ONUT ALL
-	cout<< "All the things in the vector space:  "<<endl;
-	for(int l=0; l< (*vectorOfPossibleValues).size() ; l++){
-		cout<< (*vectorOfPossibleValues)[l];
-	}
-	// finding the unique element at the current location.
-	// will traverse a vector of vectors, but right now it just looks at [0][0]
-	cout<<endl;
-	cout<< "unique to our current vector of vectors: "<<endl;
-	vector<int> Vals;
-	//for each of the vectors
-	for(int i=0; i<(*vectorOfCurrentValues).size(); i++){
-		if((std::count((*vectorOfPossibleValues).begin(), (*vectorOfPossibleValues).end(), (*vectorOfCurrentValues)[i]))==1){
-			cout<< "ADD "<<(*vectorOfPossibleValues)[i]<< endl;
-			// puzzle[X][Y] = i
-			// add to puzzle it is unique
-			// uppdateTakeLocations
-		}
-		
-	}
+//	cout<<endl;
+// 	vector<T> *vectorOfPossibleValues= validhorizontalValuesPtr[0][0];
+//	vector<T> *vectorOfCurrentValues= validhorizontalValuesPtr[0][0];
+//	vector<T> *allPossibleVals ; // vals in all the row
+//
+//	// need to do this for each row
+//	for(int l= 0; l< 9; l++){
+//		for(int s= 0;     s< (*validhorizontalValuesPtr[l][s]).size() ;   s++ ){
+//			//Use if statement to deregard the possible values at taken locations
+//			//cout<<"puzzle piece: "<<puzzle[l][0]<<endl;
+//			//if(puzzle[l][s]==0){
+//			(*vectorOfPossibleValues).push_back((*validhorizontalValuesPtr[0][l])[s]);
+//			cout<< (*validhorizontalValuesPtr[0][l])[s];
+//			//}
+//		}
+//		cout<<endl;
+//	}
+//	// PRINT ONUT ALL
+//	cout<< "All the things in the vector space:  "<<endl;
+//	for(int l=0; l< (*vectorOfPossibleValues).size() ; l++){
+//		cout<< (*vectorOfPossibleValues)[l];
+//	}
+//	// finding the unique element at the current location.
+//	// will traverse a vector of vectors, but right now it just looks at [0][0]
+//	cout<<endl;
+//	cout<< "unique to our current vector of vectors: "<<endl;
+//	vector<int> Vals;
+//	//for each of the vectors
+//	for(int i=0; i<(*vectorOfCurrentValues).size(); i++){
+//		if((std::count((*vectorOfPossibleValues).begin(), (*vectorOfPossibleValues).end(), (*vectorOfCurrentValues)[i]))==1){
+//			cout<< "ADD "<<(*vectorOfPossibleValues)[i]<< endl;
+//			// puzzle[X][Y] = i
+//			// add to puzzle it is unique
+//			// uppdateTakeLocations
+//		}
+//		
+//	}
 	//**************************************************************************************************
 
 	
@@ -301,102 +303,96 @@ void sodoku<T>::updateUntakenValues(){
 		for(int j=0; j< 9 ; j++){
 			untakenValuesSegment= getValidArray(i,j);
 			for(int j=0; j< untakenValuesSegment.size() ; j++){
-				cout<<untakenValuesSegment[j];
+				//cout<<untakenValuesSegment[j];
 			}
-			cout<< " ";
+			//cout<< " ";
 			untakenValues2Segment.push_back(untakenValuesSegment);
 			untakenValuesSegment.clear();
 		}
-		cout<< endl;
+		//cout<< endl;
 		untakenValues.push_back(untakenValues2Segment);
 		untakenValues2Segment.clear();
 	}
+
 	vector<T> vec;
 	for(int i= 0; i< 9; i++){
 		//for(int j=0; j< 9 ; j+=0){
-			for(int k=0; k< (untakenValues[0][i]).size() ; k++){
-				vec.push_back(untakenValues[0][i][k]);
-			}
-			//cout<< " ";
-		//}
-		//cout<<endl;
-	}
-	
-	int count=0;
-	for(int rows=0; rows<9; rows++){
-		cout<< "the row is: "<<rows<< endl;
-		cout<< endl;
-	for(int ci= 0; ci< 9; ci+=1){
-		for(int cs=0; cs<(untakenValues[rows][ci]).size(); cs++){
-			cout<< untakenValues[rows][ci][cs];
-
-			for(int i= 0; i< 9; i+=1){
-					for(int s=0; s<(untakenValues[rows][i]).size(); s++){
-						if( untakenValues[rows][i][s] == (untakenValues[rows][ci][cs])){
-							count++;		}
-				   		}
-					}
-				cout<< "    count: "<<count<<endl;
-				if(count==1){
-					cout<< "UNIQUE";
-					puzzle[rows][ci]=(untakenValues[rows][ci][cs]);
-
-				}
-				count=0;
-			}
-		
-
+		for(int k=0; k< (untakenValues[0][i]).size() ; k++){
+			vec.push_back(untakenValues[0][i][k]);
 		}
-	}
-	
-	
-	
-	for(int cols=0; cols<9; cols++){
-		cout<< "the column is: "<<cols<< endl;
-		cout<< endl;
-		for(int ci= 0; ci< 9; ci++){
-			if(puzzle[ci][cols] !=0){
-				for(int cs=0; cs<(untakenValues[ci][cols]).size(); cs++){
-					cout<< untakenValues[ci][cols][cs];
-
-				for(int i= 0; i< 9; i+=1){
-					for(int s=0; s<(untakenValues[ci][cols]).size(); s++){
-						if( untakenValues[i][cols][s] == (untakenValues[ci][cols][cs])){
-							count++;		}
-					}
-				}
-				cout<< "    count: "<<count<<endl;
-				if(count==1){
-					cout<< "UNIQUE";
-					print();
-					cout<< "this is ci: "<< ci <<" and cols : "<<cols;
-					puzzle[ci][cols]=(untakenValues[ci][cols][cs]);
-					print();
-				}
-				count=0;
-			}
-			}
-			
-		}
-	}
-	
-	
-	
-	
-}
-
-	
-	
-
-
 		//cout<< " ";
 		//}
 		//cout<<endl;
-					
-					
+		//print();
+	}
+//	
+//	int count=0;
+//	for(int rows=0; rows<9; rows++){
+//		cout<< "the row is: "<<rows<< endl;
+//		cout<< endl;
+//	for(int ci= 0; ci< 9; ci++){
+//		for(int cs=0; cs<(untakenValues[rows][ci]).size(); cs++){
+//			cout<< untakenValues[rows][ci][cs];
+//
+//			for(int i= 0; i< 9; i++){
+//					for(int s=0; s<(untakenValues[rows][i]).size(); s++){
+//						if( untakenValues[rows][i][s] == (untakenValues[rows][ci][cs])){
+//							count++;		}
+//				   		}
+//					}
+//				cout<< "    count: "<<count<<endl;
+//				if(count==1){
+//					cout<< "UNIQUE"<<endl;
+//					puzzle[rows][ci]=(untakenValues[rows][ci][cs]);
+//
+//				}
+//			cout<<endl;
+//			}
+//		
+//
+//		}
+//
+//	}
+//	
+//
+//	int N;
+//	for(int cols=0; cols<9; cols++){
+//		cout<< "the column is: "<<cols<< endl;
+//		cout<< endl;
+//		for(int ci= 0; ci<9; ci++){
+//			cout<< "ci: "<<ci<<endl;
+//			//if(puzzle[ci][cols] ==0){
+//			for(int cs=0; cs<(untakenValues[ci][cols]).size(); cs++){
+//				cout<< "position ci, cols, cs: "<< ci <<", "<< cols<<", " <<cs;
+//				N= untakenValues[ci][cols][cs];
+//				cout<< "   value"<<N;
+//				for(int i= 0; i<9; i++){
+//					for(int s=0; s<(untakenValues[ci][cols]).size(); s++){
+//						if( untakenValues[i][cols][s] == untakenValues[ci][cols][cs]){
+//							count++;
+//							}
+//					}
+//				}
+//				cout<< "    number of appearances: "<<count<<endl;
+//				//cout<< "this is ci: "<< ci <<" and cols : "<<cols;
+//				
+//				if(count==1){
+//					cout<< "UNIQUE";
+//					print();
+//					cout<< "ci cols cs: "<< ci << cols <<cs;
+//					puzzle[ci][cols]=(untakenValues[ci][cols][cs]);
+//					print();
+//				}
+//				count=0;
+//			}
+//			//}
+//			
+//		}
+//	}
+//	
 	
-					
-					
+	
+}
 
 
 
@@ -414,6 +410,85 @@ void sodoku<T>::updateUntakenValues(){
 //continue
 // puzzle[i][j]== value
 
+
+
+template<typename T>
+void sodoku <T>:: singleton(){
+
+	//cout<<endl;
+	//cout<<endl;
+	//cout<<endl;
+	int memspoti=-1, memspotj =-1;
+	int inv[9]={0};
+	for(int i= 0; i< 9; i++){
+		for(int j=0; j< 9 ; j++){
+			if(puzzle[i][j]==0)
+				for(int k=0; k<(untakenValues[i][j]).size(); k++){
+					cout<< untakenValues[i][j][k];
+					inv[untakenValues[i][j][k]]++;
+					if(inv[untakenValues[i][j][k]] == 1){
+						memspoti =i;
+						memspotj=j;
+					}
+				}
+			cout<< " ";
+		}
+		cout<<endl;
+		for(int i= 8; i> 0; i--){
+			if (inv[i] == 1){
+				puzzle[memspoti][memspotj]=i;
+				print();
+				break;
+			}
+		}
+		updateUntakenValues();
+	}
+	cout<< memspoti <<" "<<memspotj<<"  " << puzzle[memspoti][memspotj];
+	//cout<<endl;
+	//cout<<endl;
+	//cout<<endl;
+	solve();
+	
+	
+	cout<<"checking the rows"<< endl;
+	for(int i= 0; i< 9; i++){
+		for(int z= 0; z< 9; z++){
+			inv[z]=0;
+		}
+		
+		for(int j=0; j< 9 ; j++){
+			if(puzzle[i][j]==0)
+				for(int k=0; k<(untakenValues[j][i]).size(); k++){
+					//cout<< untakenValues[j][i][k];
+					inv[untakenValues[j][i][k]]++;
+					if(inv[untakenValues[j][i][k]] == 1){
+						memspoti =i;
+						memspotj=j;
+						cout<< "found singleton"<<endl;
+					}
+				}
+			cout<< "i and j: "<< i<<j<< endl;
+		}
+		//cout<<endl;
+		for(int i= 8; i> 0; i--){
+			if (inv[i] == 1){
+				puzzle[memspotj][memspoti]=i;
+				print();
+				break;
+			}
+		}
+			updateUntakenValues();
+	}
+	cout<<" i: "<< memspoti <<" j: "<<memspotj<<"  " << puzzle[memspoti][memspotj];
+	
+	solve();
+
+	
+	
+	
+	
+	
+}
 
 template<typename T>
 void sodoku<T>:: solve(){
