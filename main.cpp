@@ -27,7 +27,7 @@ int main(){
 		puzzle.print();
 
 	puzzle.updateUntakenValues();
-	puzzle.singleton();
+	//puzzle.singleton();
 
 	//puzzle.solve();
 	
