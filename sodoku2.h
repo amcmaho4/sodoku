@@ -60,8 +60,7 @@ sodoku<T>::sodoku(string fileName){
 	// input the file
 	ifstream inFile;
 	inFile.open (fileName.c_str());
-	
-	
+
 	//read the contents of te file into a vector of vectors (the puzzle) using temporary vars
 	T tempVar;
 	vector<T> tempVec;
@@ -73,78 +72,6 @@ sodoku<T>::sodoku(string fileName){
 		puzzle.push_back(tempVec);   //Push back the line just read)
 		tempVec.clear(); //Clear/recycle temporary vector
 	}
-	
-	// make an array of pointers to the loactions columns
-	for (int v=0; v<9; v++) {
-		for(int l=0; l< 9 ; l++){
-			verticalValuesPtr[l][v]= &(puzzle[l][v]);
-		}
-	}
-	// make an array of pointers to the locations in the rows
-	for (int v=0; v<9; v++) {
-		for(int l=0; l< 9 ; l++){
-			horizontalValuesPtr[v][l]= &(puzzle[l][v]);
-		}
-	}
-	
-	// squareCenters holds the locations of all the centers of the 3x3 sub- squares that make up a 9 x9 grid
-	int squareCenters[9][2] = {
-		{1,1},
-		{1,4},
-		{1,7},
-		{4,1},
-		{4,4},
-		{4,7},
-		{7,1},
-		{7,4},
-		{7,7}
-	};
-	// locations is essentially an array of increments, that when added to squared centers, will give you all the locations in a mini grid. For example, if you add locations to squareCenters[1] .. (1,1) then you would get a 9x2 matrix. This 9x2 matrix holds all the locations of the upper left mini grid in the full grid
-	int locations[9][2] =
-	{{1, -1},
-		{-1, 1},
-		{-1, -1},
-		{1, 1},
-		{0,0},
-		{0, -1},
-		{0, 1},
-		{1, 0},
-		{-1, 0}
-	};
-	//  the center X and Y locations
-	int scX, scY;
-	// make an array of pointers to a locations in the nine different squares on the box
-	for (int c =0; c<9; c++) {    // loops through all the different square centers
-		scX=squareCenters[c][0], scY= squareCenters[c][1];
-		for(int l=0; l< 9; l++){      // loops throught locations around a square center
-			int i=scX+locations[l][0], j=scY+locations[l][1];
-			squareValuesPtr[l][c]= &(puzzle[i][j]);
-			squareVal[i][j]=c;  // used to decide which square the piece is in
-		}
-	}
-	updateUntakenValues();
-	validverticalValuesPtr[1][1] =&(untakenValues[1][1]);
-	//cout<< (*validverticalValuesPtr) << endl;
-	
-	for (int v=0; v<9; v++) {
-		for(int l=0; l< 9 ; l++){
-			validverticalValuesPtr[l][v] =&(untakenValues[l][v]);
-		}
-	}
-	for (int v=0; v<9; v++) {
-		for(int l=0; l< 9 ; l++){
-			validhorizontalValuesPtr[v][l]= &(untakenValues[l][v]);
-		}
-	}
-	for (int c =0; c<9; c++) {    // loops through all the different square centers
-		scX=squareCenters[c][0], scY= squareCenters[c][1];
-		for(int l=0; l< 9; l++){      // loops throught locations around a square center
-			int i=scX+locations[l][0], j=scY+locations[l][1];
-			validsquaresValuesPtr[l][c]= &(untakenValues[i][j]);
-		}
-	}
-	
-	
 	
 }
 
@@ -197,21 +124,14 @@ vector<T> sodoku<T>::getValidArray(int X, int Y){
 			invalid.push_back(puzzle[loopRow][Y]);
 	}
 	
-	int gridRow = X/3;
-	int gridCol = Y/3;
-	for (int loopRow = gridRow*3; loopRow < gridRow*3+3; loopRow++) { // same num in mini grid?
-		for (int loopCol = gridCol*3; loopCol < gridCol*3+3; loopCol++) {
+	int minigridRow = X/3;
+	int minigridCol = Y/3;
+	for (int loopRow = minigridRow*3; loopRow < minigridRow*3+3; loopRow++) { // same num in mini grid?
+		for (int loopCol = minigridCol*3; loopCol < minigridCol*3+3; loopCol++) {
 			if(puzzle[loopRow][loopCol] != 0)
 				invalid.push_back(puzzle[loopRow][loopCol]);
 		}
 	}
-	
-	
-	
-	
-	// fix it up into a nice vector with only one copy of each invalid element
-	//erase all of the 0's
-	
 	std::sort(invalid.begin(), invalid.end());
 	invalid.erase(std::unique(invalid.begin(), invalid.end()), invalid.end());
 	
@@ -418,14 +338,16 @@ void sodoku<T>:: solve(){
 	int place =0;
 	int puzzleIterations=0;
 	bool foundSimple= true;
-	int *possibleLocation;
+	
 	//while(singleton() == false){
 //		if((foundSimple)== false) {
 //			singleton();
 //			foundSimple= true;
 //		}
 //		else{
+	updateUntakenValues();
 	while(!Won()){
+		cout<< "solve1"<< endl;
 		for(int i= 0; i< 9; i++){
 			for(int j=0; j< 9 ; j++){
 				sum=0;
@@ -435,7 +357,8 @@ void sodoku<T>:: solve(){
 					}
 				}
 					if(sum==1){
-						
+						cout<< "solvesolve"<< endl;
+
 						for(int k=0; k< 9 ; k++){
 							if (untakenValues[i][j][k] == 1) {
 								cout<< "FOUND"<<endl;
@@ -447,10 +370,10 @@ void sodoku<T>:: solve(){
 									untakenValues[i][h][k]=0;
 									untakenValues[h][j][k]=0;
 								}
-								int gridRow = i/3;
-								int gridCol = j/3;
-								for (int loopRow = gridRow*3; loopRow < gridRow*3+3; loopRow++) { // same num in mini grid?
-									for (int loopCol = gridCol*3; loopCol < gridCol*3+3; loopCol++)
+								int minigridRow = i/3;
+								int minigridCol = j/3;
+								for (int loopRow = minigridRow*3; loopRow < minigridRow*3+3; loopRow++) { // same num in mini grid?
+									for (int loopCol = minigridCol*3; loopCol < minigridCol*3+3; loopCol++)
 										untakenValues[loopRow][loopCol][k]=0;
 								}
 							}
@@ -462,53 +385,10 @@ void sodoku<T>:: solve(){
 			
 		}
 		}
-	
-//				if(puzzle[i][j] == 0 ){
-//					if((untakenValues[i][j]).size()== 1){
-//						foundSimple=true;
-//						puzzle[i][j] = untakenValues[i][j][0];
-//						//i=0;
-//						//j=0;
-//						print();
-//						updateUntakenValues();
-//					}
-//				}
-			//}
-		}
-	
-		}
-	//}
-
-//}
-
-//template<typename T>
-//void sodoku<T>:: printuntakenValues(){
-//	for(int i=0; i< 9 ; i++){
-//		for(int j=0; j< 9 ; j++){
-//			for(int k=0; k< 9 ; k++){
-//		
-//				cout<< untakenValues[i][j][k];
-//			
-//				}
-//			cout<< " ";
-//			}
-//		cout<<endl;
-//	}
-//	
-//}
+	}
+}
 
 
-
-
-
-
-
-
-
-
-
-
-//  for puzzle[][]
 
 #endif /* defined(____sodoku2__) */
 

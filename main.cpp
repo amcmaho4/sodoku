@@ -8,7 +8,7 @@ using namespace std;
 #include <cstring>
 #include <string>
 
-int main(){
+int main() {
 
 	
 //string fileName;
@@ -22,7 +22,7 @@ int main(){
 //	cin>> userChoice;
 	
 	//if(userChoice==1){  // playing actual sodoku
-		sodoku <int> puzzle("easySodoku.txt");
+	sodoku <int> puzzle("easySodoku.txt");
 
 	puzzle.print();
 	//puzzle.trySolve();

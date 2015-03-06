@@ -1,0 +1,4 @@
++4 Explains how the user uses the program.
++6 Explains how the program works internally.
++5 Explains how the program was verified.
++5 Text on what you think worked well, what did not work, and a general summary of the “how” the solver was implemented. This is effectively more detail than usual on how the program works, but from the programmer perspective.
